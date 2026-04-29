@@ -1,32 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles/main.css" />
+  </head>
+  <body data-page="<%= pageName %>">
+    <%- include("../partials/site-header", { pageName }) %>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-  <link rel="stylesheet" href="../../static/styles/main.css" />
-  <link rel="stylesheet" href="../../static/styles/dashboard/dashboard.css">
+    <main class="dashboard-page">
+      <div class="container dashboard-layout">
+        <section class="workspace-panel" aria-labelledby="workspace-heading">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow" data-i18n="dashboard.eyebrow">Task board</p>
+              <h1 id="workspace-heading" data-i18n="dashboard.title">Plan, track, and finish work clearly.</h1>
+            </div>
+            <p class="section-copy" data-i18n="dashboard.subtitle">
+              Tasks stay on this device, the board remembers your language choice, and every action gives feedback.
+            </p>
+          </div>
 
-<body>
-  <!-- The main dashboard is here  -->
+          <% if (notice) { %>
+            <div class="status-banner" role="status" aria-live="polite">
+              <span data-i18n="<%= notice === 'welcome' ? 'dashboard.noticeWelcome' : 'dashboard.noticeBack' %>">
+                <%= notice === "welcome" ? "Workspace ready. You can start planning now." : "Welcome back. Pick up where you left off." %>
+              </span>
+            </div>
+          <% } %>
 
-  <div class="dashboard-content-container">
-    <div class="dashboard-sidebar-container">
-      <%-include("../partials/dashboard/dashboard-sidebar.ejs") %>
-    </div>
-    <div class="dashboard-nav-cards-section">
-      <%-include("../partials/dashboard/navbar-dashboard.ejs") %>
-      <%-include("../partials/dashboard/dashboard-cards.ejs") %>
-    </div>
-  </div>
+          <div class="metric-grid" aria-label="Workspace metrics">
+            <article class="metric-card">
+              <span data-i18n="dashboard.metricTotal">Total tasks</span>
+              <strong id="metric-total">0</strong>
+            </article>
+            <article class="metric-card">
+              <span data-i18n="dashboard.metricProgress">In progress</span>
+              <strong id="metric-progress">0</strong>
+            </article>
+            <article class="metric-card">
+              <span data-i18n="dashboard.metricCompleted">Completed</span>
+              <strong id="metric-completed">0</strong>
+            </article>
+          </div>
 
-</body>
+          <section class="toolbar-panel" aria-label="Task filters">
+            <form class="toolbar-grid" id="filter-form">
+              <div class="field compact-field">
+                <label for="search" data-i18n="dashboard.searchLabel">Search tasks</label>
+                <input
+                  id="search"
+                  name="search"
+                  type="search"
+                  maxlength="80"
+                  data-i18n-placeholder="dashboard.searchPlaceholder"
+                  placeholder="Search title or details"
+                />
+              </div>
+              <div class="field compact-field">
+                <label for="status-filter" data-i18n="dashboard.statusLabel">Status</label>
+                <select id="status-filter" name="status">
+                  <option value="all" data-i18n="dashboard.statusAll">All statuses</option>
+                  <option value="todo" data-i18n="status.todo">To do</option>
+                  <option value="doing" data-i18n="status.doing">In progress</option>
+                  <option value="done" data-i18n="status.done">Completed</option>
+                </select>
+              </div>
+              <div class="field compact-field">
+                <label for="priority-filter" data-i18n="dashboard.priorityLabel">Priority</label>
+                <select id="priority-filter" name="priority">
+                  <option value="all" data-i18n="dashboard.priorityAll">All priorities</option>
+                  <option value="high" data-i18n="priority.high">High</option>
+                  <option value="medium" data-i18n="priority.medium">Medium</option>
+                  <option value="low" data-i18n="priority.low">Low</option>
+                </select>
+              </div>
+            </form>
+          </section>
 
+          <div class="board-grid" id="board-grid" aria-live="polite"></div>
+        </section>
+
+        <aside class="composer-panel" aria-labelledby="composer-heading">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow" data-i18n="dashboard.formEyebrow">Task composer</p>
+              <h2 id="composer-heading" data-i18n="dashboard.formTitle">Add or update a task.</h2>
+            </div>
+            <p class="section-copy" data-i18n="dashboard.formBody">
+              Titles are required, details are optional, and all text is stored as plain text rather than injected HTML.
+            </p>
+          </div>
+
+          <form id="task-form" class="task-form" novalidate>
+            <input id="task-id" name="taskId" type="hidden" />
+
+            <div class="field">
+              <label for="task-title" data-i18n="dashboard.taskTitleLabel">Task title</label>
+              <input
+                id="task-title"
+                name="title"
+                type="text"
+                maxlength="<%= maxTitleLength %>"
+                required
+                data-i18n-placeholder="dashboard.taskTitlePlaceholder"
+                placeholder="Prepare accessibility screenshots"
+              />
+            </div>
+
+            <div class="field">
+              <label for="task-details" data-i18n="dashboard.taskDetailsLabel">Details</label>
+              <textarea
+                id="task-details"
+                name="details"
+                maxlength="<%= maxDetailsLength %>"
+                rows="5"
+                data-i18n-placeholder="dashboard.taskDetailsPlaceholder"
+                placeholder="Summarise the defect, the evidence, and the expected fix."
+              ></textarea>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="task-status" data-i18n="dashboard.taskStatusLabel">Status</label>
+                <select id="task-status" name="status">
+                  <option value="todo" data-i18n="status.todo">To do</option>
+                  <option value="doing" data-i18n="status.doing">In progress</option>
+                  <option value="done" data-i18n="status.done">Completed</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="task-priority" data-i18n="dashboard.taskPriorityLabel">Priority</label>
+                <select id="task-priority" name="priority">
+                  <option value="high" data-i18n="priority.high">High</option>
+                  <option value="medium" data-i18n="priority.medium">Medium</option>
+                  <option value="low" data-i18n="priority.low">Low</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="task-owner" data-i18n="dashboard.taskOwnerLabel">Owner</label>
+              <input
+                id="task-owner"
+                name="owner"
+                type="text"
+                maxlength="40"
+                data-i18n-placeholder="dashboard.taskOwnerPlaceholder"
+                placeholder="Member B"
+              />
+            </div>
+
+            <div class="field">
+              <label for="task-date" data-i18n="dashboard.taskDateLabel">Due date</label>
+              <input id="task-date" name="dueDate" type="date" />
+            </div>
+
+            <div class="form-actions">
+              <button class="button button-primary" id="submit-button" type="submit" data-i18n="dashboard.submitButton">
+                Save task
+              </button>
+              <button class="button button-secondary" id="reset-button" type="button" data-i18n="dashboard.resetButton">
+                Clear form
+              </button>
+            </div>
+          </form>
+
+          <div id="form-message" class="status-banner status-banner-muted" role="status" aria-live="polite"></div>
+        </aside>
+      </div>
+    </main>
+
+    <%- include("../partials/site-footer") %>
+    <%- include("../partials/cookie-banner") %>
+    <script>
+      window.TASKIFY_BOOTSTRAP = {
+        maxTitleLength: <%- JSON.stringify(maxTitleLength) %>,
+        maxDetailsLength: <%- JSON.stringify(maxDetailsLength) %>
+      };
+    </script>
+    <script type="module" src="/static/js/dashboard.js"></script>
+  </body>
 </html>

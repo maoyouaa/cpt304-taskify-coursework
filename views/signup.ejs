@@ -1,59 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles/main.css" />
+  </head>
+  <body data-page="<%= pageName %>">
+    <%- include("partials/site-header", { pageName }) %>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../static/styles/signup.css" />
-  <title>SignUp</title>
-</head>
+    <main class="section-band">
+      <div class="container auth-layout">
+        <section class="auth-copy" aria-labelledby="auth-heading">
+          <p class="eyebrow" data-i18n="signup.eyebrow">Workspace setup</p>
+          <h1 id="auth-heading" data-i18n="signup.title">Start with a focused task space.</h1>
+          <p class="lede" data-i18n="signup.subtitle">
+            This lightweight onboarding page exists so the project keeps a coherent entry flow while the main task
+            management experience lives in the dashboard.
+          </p>
+          <ul class="signal-list">
+            <li data-i18n="signup.pointOne">Labelled inputs and keyboard-safe focus order</li>
+            <li data-i18n="signup.pointTwo">No hidden HTML injection path through the form</li>
+            <li data-i18n="signup.pointThree">Clear redirect to the working dashboard after submit</li>
+          </ul>
+        </section>
 
-<body>
-  <section class="section signup-section">
-    <div class="container signup-container">
-      <div class="main">
-        <input type="checkbox" id="chk" aria-hidden="true" />
-
-        <div class="signup">
-          <form method="post" action="/signup">
-            <label for="chk" aria-hidden="true">Sign up</label>
-            <div class="signup-username">
-              <input type="text" name="SignUpUsername" placeholder="User name" required="true" />
+        <section class="auth-card" aria-label="Workspace start form">
+          <form action="/signup" method="post" class="auth-form">
+            <div class="field">
+              <label for="name" data-i18n="signup.nameLabel">Name</label>
+              <input id="name" name="name" type="text" maxlength="60" required />
             </div>
-            <div class="signup-email">
-              <input type="email" name="SignUpEmail" placeholder="Email" required="true" />
+            <div class="field">
+              <label for="email" data-i18n="signup.emailLabel">Email</label>
+              <input id="email" name="email" type="email" maxlength="80" required />
             </div>
-            <div class="signup-password">
-              <input type="password" name="SignUpPassword" placeholder="Password" required="true" />
+            <div class="field">
+              <label for="team" data-i18n="signup.teamLabel">Team</label>
+              <input id="team" name="team" type="text" maxlength="40" />
             </div>
-            <div>
-              <input class="button" name="SignUpSubmit" type="submit" value="Sign up" />
-            </div>
+            <button class="button button-primary button-full" type="submit" data-i18n="signup.primaryAction">
+              Continue to dashboard
+            </button>
           </form>
-        </div>
-        <div class="login">
-          <form method="post" action="/login">
-            <label for="chk" aria-hidden="true">Login</label>
-            <div class="signup-email">
-              <input type="email" name="LoginEmail" placeholder="Enter your email " required="true" />
+
+          <div class="auth-divider" aria-hidden="true"></div>
+
+          <form action="/login" method="post" class="auth-form auth-form-muted">
+            <div class="field">
+              <label for="login-email" data-i18n="signup.loginEmailLabel">Email</label>
+              <input id="login-email" name="email" type="email" maxlength="80" required />
             </div>
-            <div class="signup-password">
-              <input type="password" name="LoginPassword" placeholder="Enter password" required="true" />
+            <div class="field">
+              <label for="login-password" data-i18n="signup.passwordLabel">Password</label>
+              <input id="login-password" name="password" type="password" minlength="8" maxlength="80" required />
             </div>
-            <!-- <button href="/auth">Log In</button> -->
-            <div>
-              <input class="button" name="LoginSubmit" type="submit" value="Login" />
-            </div>
+            <button class="button button-secondary button-full" type="submit" data-i18n="signup.secondaryAction">
+              Return to dashboard
+            </button>
           </form>
-        </div>
+        </section>
       </div>
-    </div>
-  </section>
-</body>
+    </main>
 
-</html>
-</head>
-
+    <%- include("partials/site-footer") %>
+    <%- include("partials/cookie-banner") %>
+    <script type="module" src="/static/js/site.js"></script>
+  </body>
 </html>

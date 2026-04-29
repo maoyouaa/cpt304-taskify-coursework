@@ -1,3 +1,38 @@
+## Coursework Upgrade Notes
+
+This fork refactors the original Taskify prototype into a coursework-ready Express application with:
+
+- an accessible task dashboard
+- persistent browser-side task storage
+- English and Chinese interface switching
+- cookie consent and a dedicated privacy policy page
+- automated tests, coverage reporting, and CI upload support for Codecov
+
+### Quick start
+
+```bash
+npm install
+npm start
+```
+
+Open:
+
+- `/` for the landing page
+- `/dashboard` for the working task board
+- `/signup` for the onboarding flow
+- `/privacy` for the privacy policy
+
+### Testing
+
+```bash
+npm test
+```
+
+Coverage output is generated into `coverage/`, and `.github/workflows/ci.yml` uploads `coverage/lcov.info` to Codecov when `CODECOV_TOKEN` is configured in repository secrets.
+
+### Deployment
+
+`vercel.json` is included for Vercel deployment. Deploy `main` early so you can accumulate the required 7+ days of uptime evidence before submission.
 
 
 <div align="center">

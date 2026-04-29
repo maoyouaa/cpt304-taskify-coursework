@@ -1,0 +1,25 @@
+<header class="site-header">
+  <div class="container header-row">
+    <a class="brand" href="/" aria-label="Taskify home">
+      <img src="/static/assets/nav_logo.png" alt="" class="brand-mark" />
+      <span>Taskify</span>
+    </a>
+
+    <nav aria-label="Primary">
+      <ul class="nav-list">
+        <li><a class="<%= pageName === 'home' ? 'is-active' : '' %>" href="/" data-i18n="nav.home">Home</a></li>
+        <li><a class="<%= pageName === 'dashboard' ? 'is-active' : '' %>" href="/dashboard" data-i18n="nav.dashboard">Dashboard</a></li>
+        <li><a class="<%= pageName === 'signup' ? 'is-active' : '' %>" href="/signup" data-i18n="nav.start">Start</a></li>
+        <li><a class="<%= pageName === 'privacy' ? 'is-active' : '' %>" href="/privacy" data-i18n="nav.privacy">Privacy</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <div class="language-toggle" role="group" aria-label="Language switcher">
+        <button type="button" class="language-button" data-lang-switch="en">EN</button>
+        <button type="button" class="language-button" data-lang-switch="zh">中文</button>
+      </div>
+      <a class="button button-secondary header-cta" href="/dashboard" data-i18n="nav.cta">Open workspace</a>
+    </div>
+  </div>
+</header>
