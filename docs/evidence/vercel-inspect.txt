@@ -1,0 +1,25 @@
+Fetching deployment "cpt304-taskify-coursework.vercel.app" in g3519230338-3646s-projects
+> Fetched deployment "cpt304-taskify-coursework-4fubd4jae-g3519230338-3646s-projects.vercel.app" in g3519230338-3646s-projects [449ms]
+
+  General
+
+    id		dpl_5hzx5ucwbBNYkJuFdmmNuaumBJX8
+    name	cpt304-taskify-coursework
+    target	production
+    status	● Ready
+    url		https://cpt304-taskify-coursework-4fubd4jae-g3519230338-3646s-projects.vercel.app
+    created	Wed Apr 29 2026 17:07:10 GMT+0800 (中国标准时间) [4m ago]
+
+
+  Aliases
+
+    ╶ https://cpt304-taskify-coursework.vercel.app
+    ╶ https://cpt304-taskify-coursework-g3519230338-3646s-projects.vercel.app
+    
+
+  Builds
+
+    ┌ .        [0ms]
+    └── λ src/app.js (1000.06KB) [iad1]
+    
+
