@@ -87,14 +87,14 @@
 ### Codecov screenshot / badge
 - Current status:
   - Local coverage is ready and above the threshold.
-  - `.github/workflows/ci.yml` exists locally.
-- Actual blocker:
-  - GitHub rejected the workflow push because the active GitHub token still does not have `workflow` scope.
+  - `.github/workflows/ci.yml` is now restored to the remote repository.
+  - The workflow has been updated to use Codecov's OIDC-based upload path.
+- Current next step:
+  - trigger the GitHub Action on `main`
+  - check whether Codecov accepts the OIDC upload for this public repository
 - What to do later:
-  - refresh `gh` authentication with `workflow` scope
-  - push `.github/workflows/ci.yml`
-  - add `CODECOV_TOKEN` to repository Actions secrets
-  - rerun CI and capture the Codecov page or badge
+  - if OIDC upload is accepted, capture the Codecov page or badge directly
+  - if Codecov still requests a token, add `CODECOV_TOKEN` to repository Actions secrets and rerun CI
 
 ## Fast assembly reference
 
@@ -109,4 +109,4 @@
 - For deployment:
   - "The system has been deployed to Vercel and is publicly accessible at https://cpt304-taskify-coursework.vercel.app. At the time of writing, the deployment is live and ready; the 7-day uptime evidence should be captured after the deployment has remained stable for the required duration."
 - For coverage:
-  - "Local automated tests currently report 95.39% coverage. Codecov integration is configured in the repository workflow and should be finalized once GitHub workflow permissions are refreshed."
+  - "Local automated tests currently report 95.39% coverage. Codecov integration is configured in the repository workflow and should be finalized after the remote CI upload completes successfully."
