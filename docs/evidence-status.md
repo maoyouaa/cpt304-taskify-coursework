@@ -87,14 +87,16 @@
 ### Codecov screenshot / badge
 - Current status:
   - Local coverage is ready and above the threshold.
-  - `.github/workflows/ci.yml` is now restored to the remote repository.
-  - The workflow has been updated to use Codecov's OIDC-based upload path.
+  - `.github/workflows/ci.yml` is restored to the remote repository and GitHub Actions now runs successfully on `main`.
+  - The workflow uses Codecov's OIDC-based upload path.
+  - The latest successful CI run is `25212197798`.
+  - Codecov upload does not yet produce a usable public coverage result: the action log shows repeated HTTP 500 responses from Codecov's ingest endpoint, and the public badge still reports `unknown`.
 - Current next step:
-  - trigger the GitHub Action on `main`
-  - check whether Codecov accepts the OIDC upload for this public repository
+  - capture a GitHub Actions success screenshot as interim workflow proof if needed
+  - revisit the Codecov project page after Codecov ingestion recovers or after switching to a repository token flow
 - What to do later:
-  - if OIDC upload is accepted, capture the Codecov page or badge directly
-  - if Codecov still requests a token, add `CODECOV_TOKEN` to repository Actions secrets and rerun CI
+  - if Codecov begins returning a real percentage, capture the Codecov page or badge directly
+  - if the issue persists, connect the repository in Codecov and add a real `CODECOV_TOKEN`, then rerun CI
 
 ## Fast assembly reference
 
@@ -109,4 +111,4 @@
 - For deployment:
   - "The system has been deployed to Vercel and is publicly accessible at https://cpt304-taskify-coursework.vercel.app. At the time of writing, the deployment is live and ready; the 7-day uptime evidence should be captured after the deployment has remained stable for the required duration."
 - For coverage:
-  - "Local automated tests currently report 95.39% coverage. Codecov integration is configured in the repository workflow and should be finalized after the remote CI upload completes successfully."
+  - "Local automated tests currently report 95.39% coverage. The GitHub Actions workflow now passes on the remote repository, while Codecov screenshot evidence remains pending because the current upload attempts return an external Codecov ingest error."

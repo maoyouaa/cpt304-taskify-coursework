@@ -59,7 +59,7 @@ Use this file while assembling `report.pdf`. It maps each figure number to the e
    - Place after the sentence reporting coverage above 95%.
    - Source:
      - Codecov project page or badge screenshot
-   - Status: blocked on GitHub workflow permissions and Codecov upload
+   - Status: GitHub workflow issue fixed; still blocked on Codecov returning a real public result instead of `unknown`
 
 9. **Figure 9. Lighthouse Accessibility audit score above 90 on the deployed site.**
    - Insert in: `Section 6 Baseline Standards Evidence`
